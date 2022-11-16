@@ -1,1 +1,91 @@
-theme: jekyll-theme-modernist
+# Welcome to Jekyll!
+
+#Site
+title: Blue Stone-纪青石
+
+description: This is Stone' home. This template is stolen from others, even some info isn't changed.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: blue-stone-w.github.io # the base hostname & protocol for your site, e.g. http://example.com
+rss_url: /feed.xml
+
+
+# Jekyll
+permalink:          /blog/:title/
+markdown:           kramdown
+highlighter:        rouge
+kramdown:
+  auto_ids:         true
+  footnote_nr:      1
+  entity_output:    as_char
+  toc_levels:       1..6
+  enable_coderay:   false
+sass:
+  sass_dir:         assets/_sass
+  style:            compressed
+  
+  
+# Comment
+comment:
+  # disqus: kongsong    
+  # duoshuo: kongsong
+  # youyan: 2122392
+  # laibili: MTAyMC8yODgzNC81NDA0
+  # gitalk: true
+ 
+ 
+# Website analytics (don't know what this is)
+# google_analytics: UA-82494501-1
+# baidu_analytics: 5b31ffbbdc6cff18727f3adf75a03777    #from //hm.baidu.com/hm.js?***
+
+  
+# Author information:
+author:
+  #resume: /resume
+  name: Blue Stone     #the name of Blog section
+  about_me: I'm Blue Stone. This is my online blog, where I share thoughts about STEM knowledge. Feel free to contact me by email if you have any question.
+
+
+# Social Links
+email:      junpengwang8@gmail.com
+# facebook:
+github:     blue-stone-w
+# google
+# instagram:
+# linkedin:
+# stackoverflow:
+#steam:
+#tumblr:
+# twitter_username: jekyllrb
+# weibo:
+# youtube:
+zhihu: 青石纪
+
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-gist
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
+# exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
+# Exclude list
+exclude: [README.md, Gemfile, Gemfile.lock, _site, src, vendor, CNAME, LICENSE, Rakefile,.sass-cache,.DS_Store,.idea,index.markdown]

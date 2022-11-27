@@ -1,35 +1,16 @@
 ---
 layout: post
-title:  "从零创建博客"
+title:  "ubuntu 18 安装及配置"
 date:   2022-11-20 08:30:00 +0800
 categories: [Tech]
-excerpt: 从零开始创建博客，也给出了一些小问题的解决方案
+excerpt: 安装Ubuntu 18的系统，然后添加常用工具。
 tags:
   - CN
-  - blog 
-  - Markdowm
-  - jekyll
+  - Ubuntu 
+  - Linux
+  - 
 ---
 
-<<<<<<< HEAD
-这篇文章
-
-## 一、创建博客并使用模板
-
-1.创建托管
-
-2.推荐 ice-bear 并安装使用
-
-
-## 二、模板和Jekyll的文件结构
-
-
-
-![pic1](/assets/images/posts/Windows-use/01-01.jpg)
-
-
-![pic2](https://github.com/Yuleii/Yuleii.github.io/raw/master/pictures/test.PNG) 
-=======
 这篇文章整理了整个安装了Ubuntu 18及相关软件的过程。软件不是必备的，但提供了很多便利。有些步骤在网上已经有很好的教程，我就不再详写这些步骤，直接放出我认为好用的教程链接，并附加注意事项。建议开始每个步骤前先看注意事项。
 
 ## 一、准备工作
@@ -38,7 +19,7 @@ tags:
 ##### 注意事项
  1. 制作安装盘的过程会删除该u盘中原来的所有数据
 
- 2. 腾出空间的操作，指的是删除卷，将空间完全释放出来。新建一个空卷，会导致无法安装新系统。
+ 2. 腾出空间的操作，指的是删除卷，将空间完全释放出来。新建一个空卷会导致无法安装新系统。
 
  3. win的磁盘的文件系统类型为NTFS；如果你之前一直使用的win，那么移动硬盘的文件系统类型应该也是NTFS，这一点你可以自行确认；ubuntu的文件格式是ext3和ext4。
 
@@ -50,18 +31,19 @@ tags:
 
 ##### 注意事项
 
-1. boot选项异常  
-如果之前曾安装过ubuntu但没有正确删除，例如直接在Windows下格式化了Ubuntu对应的盘。那么在boot选项下仍然会有Ubuntu选项。可以选择忽略原来的Ubuntu，选择自己的U盘。删除原来的Ubuntu boot选项的方法可以参考[“删除Win10 EFI启动分区中的Ubuntu启动引导项 - 2.2”](https://blog.csdn.net/Spacegene/article/details/86659349)
+1.boot选项异常  <br />
+如果之前曾安装过ubuntu但没有正确删除，例如直接在Windows下格式化了Ubuntu对应的盘。那么在boot选项下仍然会有Ubuntu选项。可以选择忽略原来的Ubuntu，选择自己的U盘。删除原来的Ubuntu boot选项的方法可以参考[“删除Win10 EFI启动分区中的Ubuntu启动引导项 ”](https://blog.csdn.net/Spacegene/article/details/86659349)的 2.2
 
-2. 修复花屏  
+2.修复花屏  <br />
 如果在安装时出现花屏的情况，参照[这个方法](https://zhuanlan.zhihu.com/p/439088148)解决
 
-3. 安装类型  
-如果是新手的话，我的建议是选择第一个，在安装过程中会自行分配各个空间和挂载点。
+3.安装类型  
+如果是新手的话，我的建议是选择第一个，在安装过程中会自行分配各个空间和挂载点。<br /><br />
 
-4. 用户名和密码  
+
+4.用户名和密码  
 从外界访问时，首先找到按照`计算机名`找到计算机，然后在该计算机内按照`用户名/username`找到用户。第一行的`姓名/name`是让人看的，之后系统会以这个名字称呼你。密码长度自己把握。因为在使用中经常需要输入密码，因此我倾向于使用短密码。在完成安装后也可以按照[这个方法](https://blog.csdn.net/garvie/article/details/55113691)更改为短密码。
->>>>>>> f2b22b0 (Update 2022-11-20-install-ubuntu.md)
+
 
 
 ## 三、安装常用工具
@@ -75,9 +57,9 @@ tags:
 ## 四、安装工作软件
 #### 1. 安装chrome
 #### 2. 安装ROS
-安装方法参考[此处]()
+安装方法参考[此处](https://www.guyuehome.com/10082)
 #### 3. 安装vscode
 可以添加的插件：
 #### 4. 安装qt
-qt5.15及之后的版本是在线安装，之前的版本是离线安装。在线安装可点击[此处]()下载`online-installer`。离线安装可点击[此处]()下载安装包。
+qt5.15及之后的版本是在线安装，之前的版本是离线安装。在线安装可点击[此处](https://www.qt.io/download-qt-installer?utm_referrer=https%3A%2F%2Fwww.qt.io%2Fdownload-open-source%3Futm_referrer%3Dhttps%253A%252F%252Fwww.qt.io%252Fdownload)下载`online-installer`。离线安装可点击[此处](https://download.qt.io/)下载安装包。
 

@@ -49,7 +49,7 @@ $(function(){
       containerID  : "pag-itemContainer-one",
       previous: "«",
       next: "»",
-      perPage      : 5,  /* num of items per page */
+      perPage      : 10,  /* num of items per page */
       startPage    : 1,
       startRange   : 1,
       midRange     : 4,

@@ -806,6 +806,19 @@ E: Unable to locate package libreadline7
 E: Unable to correct problems, you have held broken packages 
 ```
 
-原因分析：你想安装的软件所需要的依赖项你的系统已经安装了，但是系统已经安装的依赖项版本与它想要的版本不一致导致的。可以选择卸载已经安装的版本并重新安装。
+原因分析：你想安装的软件所需要的依赖项你的系统已经安装了，但是系统已经安装的依赖项版本与它想要的版本不一致导致。可以选择卸载已经安装的版本并重新安装。
 
 ##### 8
+运行以下命令
+
+```C++
+apt install progress
+```
+
+错误提示如下
+
+```C++
+E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)
+E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?
+```
+原因分析：没有root权限，使用`sudo`获取root权限即可

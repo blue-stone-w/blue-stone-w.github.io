@@ -14,7 +14,7 @@ tags:
 
 这篇文章整理了ROS和Ubuntu使用过程中遇到的问题以及对应的解决方案。这些方案并不总是能解决问题，只是提供一个排查问题的方向。
 
-## 一、ROS相关
+## 一、ROS1相关
 
 覆盖范围包括ROS生态内的软件，比如 rqt，gazebo，rviz，yaml等等。
 
@@ -292,7 +292,7 @@ catkin_make
 
 ```C++
 /usr/local/include/ceres/internal/integer_sequence_algorithm.h:64:16: error: ‘integer_sequence’ is not a member of ‘std’
- struct SumImpl<std::integer_sequence<T, N, Ns...>> {
+ struct SumImpl<std::integer_sequence<T, N, Ns...>> 
 ```
 
 解决方案如下
@@ -373,6 +373,31 @@ For frame [map_link]: No transform to fixed frame [base_link].  TF error: [Looku
 
 ```C++
 static tf::TransformBroadcaster br; br.sendTransform(trans_map_to_truck);
+```
+
+##### 22
+安装ros时出现如下错误
+```C++
+Failed to connect to raw.githubusercontent.com
+```
+可参照[这个方案](https://www.guyuehome.com/37844)解决。
+
+## 一、ROS2相关
+
+##### 1.
+出现如下错误
+```C++
+unknown command line flags: -r // 需要确认
+unknown command line flags: -params-files
+unknown command line flags: -r 
+```
+在搜索时发现，结果几乎都是`tensorflow`和`cartographer`相关的。经过高人指点，发现出错的代码是下面这段
+```C++
+google::ParseCommandLineFlags(&argc, &argv, true);
+```
+解决方案就是把这段代码注释掉，即
+```C++
+// google::ParseCommandLineFlags(&argc, &argv, true);
 ```
 
 ## 二、C++相关
@@ -822,3 +847,12 @@ E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission d
 E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?
 ```
 原因分析：没有root权限，使用`sudo`获取root权限即可
+
+##### 9 ubuntu 20 找不到设置 cannot find setting
+这是因为有个包丢失了，重新安装即可。可使用如下命令
+```C++
+sudo apt install gnome-control-center
+```
+
+##### 10
+我先把 Windows10 和 Ubuntu 18 装在了第一个硬盘，然后又在第二个硬盘安装了 Ubuntu20。结果win10和u18都能正常进入，但无法进入u20，尽管这个系统已经正确安装。

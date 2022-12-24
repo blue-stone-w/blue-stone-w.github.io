@@ -382,7 +382,7 @@ Failed to connect to raw.githubusercontent.com
 ```
 可参照[这个方案](https://www.guyuehome.com/37844)解决。
 
-## 一、ROS2相关
+## 二、ROS2相关
 
 ##### 1.
 出现如下错误
@@ -400,7 +400,24 @@ google::ParseCommandLineFlags(&argc, &argv, true);
 // google::ParseCommandLineFlags(&argc, &argv, true);
 ```
 
-## 二、C++相关
+##### 2 
+我在开启代理的情况下执行命令`curl http://repo.ros2.org/repos.key | sudo apt-key add -`，出现了如下错误
+![pic1](/assets/images/posts/ros-ubuntu-qa/02-01.png)
+```C++
+url http://repo.ros2.org/repos.key | sudo apt-key add -
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (5) Could not resolve proxy: http
+gpg: no valid OpenPGP data found.
+```
+解决方法是，关闭当前终端和代理，然后重新开启终端执行如下命令。
+```C++
+sudo apt update && sudo apt install curl gnupg2 lsb-release
+curl http://repo.ros2.org/repos.key | sudo apt-key add -
+```
+
+## 三、C++相关
 
 覆盖范围包括编译、CMake、某些库使用中的问题，比如Eigen，PCL等等。
 
@@ -739,7 +756,7 @@ downSizeFilterSurf.filter(outLaserCloudSurfLast);   // only 1 or 2 points left
 
 原因分析如下: points are nan
 
-## 三、Linux相关
+## 四、Linux相关
 
 覆盖范围包括常用命令和功能包的使用，比如vim等等。
 
@@ -855,4 +872,18 @@ sudo apt install gnome-control-center
 ```
 
 ##### 10
+问题如下：
 我先把 Windows10 和 Ubuntu 18 装在了第一个硬盘，然后又在第二个硬盘安装了 Ubuntu20。结果win10和u18都能正常进入，但无法进入u20，尽管这个系统已经正确安装。
+
+在安装Ubuntu20时，我把它装在了第二个硬盘。对于`安装启动器的设备`，我尝试了装u20的分区和装u20的硬盘，安装后在grub界面有`Ubuntu`，但都无法打开。最后我把该选项选为第一个盘，即win10所在的盘。
+
+##### 11 搜狗输入法不能汉字
+
+已经按照官网的步骤安装、重启、配置，但是调为搜狗 输入法时任然不能输入汉字。可能是忘记安装相关的依赖项。在终端执行以下命令安装依赖项后即可使用。
+
+```
+sudo apt install libqt5qml5 libqt5quick5 libqt5quickwidgets5 qml-module-qtquick2
+
+sudo apt install libgsettings-qt1
+```
+

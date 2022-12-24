@@ -291,12 +291,14 @@ class Derived: public Base
 }
 ```
 <br /> 
+
 #### 10.令 operator= 返回一个指向 *this 的引用
 #### have assignment operators return a reference to *this
 
 这一条包括 `operator+=` `operator-=` `operator*=`等等。虽然这一条并不具有强制性，但考虑到内置类型和标准程序库提供的类型如 string vector complex 等都遵守这一做法，还是尽量遵守比较好。
 
 <br /> 
+
 #### 11.在 operator= 中处理“自我赋值”
 #### handle assignment to self in operator=
 
@@ -315,6 +317,7 @@ Widget& Widget::operator=(const Widget& rhs)
 }
 ```
 <br /> 
+
 #### 12.复制对象时要复制每一个成分
 #### copy all parts of an object
 
@@ -335,6 +338,7 @@ Widget& Widget::operator=(const Widget& rhs)
 常见的资源有内存、文件描述器(file descriptors)、互斥锁(mutex locks)、图形界面中的字型和笔刷、数据库连接、网络 sockets。管理资源的一个重点在于，当不再需要某个资源时，确保该资源被释放。
 
 <br /> 
+
 #### 13.用对象管理资源
 #### use objects to management resources
 
@@ -347,8 +351,8 @@ auto_ptrs 是个 “ 类指针(pointer-like)对象”,其析构函数自动对�
 shared_ptr 是一种“引用计数型智能指针”(reference-counting smart pointer, RCSP)，能计算共有多少对象指向某个资源，并在无人指向它时自动删除该资源。但它无法打破`环状引用`(cycles of reference)。
 
 
-
 <br /> 
+
 #### 14.注意在资源管理类中复制行为
 #### care about copying behavior in resource-managing calsses
 
@@ -402,23 +406,165 @@ private:
 **转移底部资源的所有权**：如果要求 指向该内容的 永远只有一个对象，可以用 auto_ptrs 实现。
 
 <br /> 
+
 #### 15.在资源管理类中提供对原始资源的访问
 #### provide access to raw resource in resource-managing classes
-
+APIs往往要求访问原始资源(raw resources)
 考虑以下这个用于字体的 RAII class
 ```
 FontHandle getFont(); 
 void releaseFont(FontHandle fh);
-class Font
+class Font // RAII 类
 {
  public:
   explict Font(FontHandle fh) // 获得资源
     : f(fh) // pass-by-value
   { }
   ~Font() { releaseFont(f); } // 释放资源
-  FontHandle get() const { return f; }      // 显式转换函数
-  operator FontHandle() const { return f; } // 隐式转换函数
+  FontHandle get() const { return f; }      // 显式转换函数：安全
+  operator FontHandle() const { return f; } // 隐式转换函数：方便
  private:
   FontHandle f; // 原始字体资源
+}
+
+Font f1;
+FontHandle f2 = f1; // 如果定义了隐式转换函数，会把f1的FontHandle复制给f2。此时f1和f2拥有同一个FontHandle。如果f1销毁，f2就会成为dangle
+```
+
+#### 16.成对使用new和delete时要采取相同形式
+#### use the same form in corresponding uses of new and delete
+
+```C++
+std::string* str1 = new std::string;
+std::string* str2 = new std::string[100];
+delete str1; // 删除一个对象
+delete [] str2; // 删除一个由对象组成的数组
+```
+new时使用了`[]`，delete也应使用`[]`。反之亦然。
+
+
+#### 17.以独立语句将newed对象置入智能指针
+#### store newed objects in smart pointers in standalone statements.
+
+```C++
+int priority();
+void process(std::tr1::shared_ptr<Widget> pw, int priority);
+```
+在调用`process`之前，编译器必须完成“调用priority”(1)、执行“new Widget”(2)、“调用tr1::shared_ptr构造函数”(3)，执行顺序不是固定的。按照213的顺序，如果1产生异常，会导致`new Widget`返回的指针丢失，从而引起资源泄漏的风险。
+
+对于跨越语句的的操作，编译器不能重排执行顺序；在同一个语句内，则可能为多项操作重新排序。应改成以下形式以防止可能的指针丢失。
+
+```C++
+int priority();
+(std::tr1::shared_ptr<Widget> pw（new Widget)；
+void process(std::tr1::shared_ptr<Widget> pw, int priority);
+```
+
+
+<br /> 
+
+# <center>四、设计与声明
+
+# <center>designd and declarations
+
+#### 18.让接口容易正确使用，不易误用
+#### make interfaces easy to use and hard to use incorrectly.
+
+理论上，如果使用某个接口没有获得预期的行为，则该代码不应通过编译；如果通过编译，就应该表现出想要的行为。任何接口如果要求使用时必须记得某些事情，就可能会导致错误使用。
+
+为防止忘记delete指针，可以在创建时使用`factory`返回一个指向该对象的智能指针shared_ptr。
+
+对于`cross-DLL problem`问题，对象可能在其中一个DLL中new，在另一个DLL中delete。使用智能指针shared_ptr也能避免这类资源泄漏。
+
+#### 19.设计类犹如设计类型
+#### treat class design as type design.
+
+设计每个类时都应考虑以下几个问题：
+* 如何销毁和创建
+* 初始化和赋值
+* 用copy构造函数定义值传递(pass-by-value)
+* 成员变量的合法值，例如月份不能为13
+* 继承关系图(inheritance graph)
+* 是否允许隐式转换以及隐式转换的类型
+* 是否需要重载操作符及如何重载
+* 访问限制，`public`，`private`，`protected`
+* 未声明接口(undeclared interface)
+* 一般化。是否应该定义为类模板(class template)
+
+#### 20.尽量用常量引用传递代替值传递
+#### prefer pass-by-reference-to-const to pass-by-class.
+
+* 因为值传递过程需要构造出新的对象，因此通常比常量引用传递更费时。
+* 派生类的对象在值传递过程中可能会被视为基类的对象，从而导致派生类特有的部分被删除。即切割问题(slicing problem)。
+
+因为引用往往由指针实现，因此传递引用实际上传递的是指针。对于int等内置类型和小的自定义类型来说，值传递的效率更高。即便是小的自定义类型，考虑到将来可能会变得很大，因此仍然建议引用传递。
+
+对于STL的迭代器和函数对象，值传递往往更好。
+
+#### 21.必须返回对象时，不要尝试返回引用
+#### don't try to return a refernece when you must return an object.
+
+返回局部变量时，应该返回值而不是引用或指针。 
+
+#### 22.将成员变量声明为private
+#### declare data members private.
+
+将成员变量声明为private，然后通过函数访问成员变量。这样可以更精确地控制对成员变量的处理。如果更改类中代码，只要保证该函数(接口)的用法不变，就不需要更改使用该接口的代码，提高了可维护性。
+
+public意味着不封装，即成员函数和成员变量可能被使用。如果更改，可能意味着类外调用这些函数和变量的代码都需要更改、测试、写文档、编译，这个工作量可能很大。protected在封装性上几乎和public相同。
+
+#### 23.尽量用非成员、非友元代替成员函数
+#### prefer non-member non-friend functions to member functions.
+
+封装即不可见。对该成员不可见的代码越多，改变的弹性越大。当成员变量为public时，可以有无限的函数访问该成员，该成员就毫无封装性，没有任何改变的弹性。当成员变量为private时，可以访问的函数为数量有限的成员函数，具有更好的封装性。同样的，非成员非友元函数不会增加访问private成员的函数数量，因此提供了更好的封装性。
+
+注意，此处的非成员函数是相对于这个类来说的，但并不意味着这个函数不能是任何类的成员。
+
+#### 24.若所有参数都需要类型转换，应该使用非成员函数
+#### declare non-member functions when type conversions should apply to all paramters.
+
+<font color="#dd0000">???</font><br /> 
+
+
+#### 25.考虑写一个不抛出异常的swap函数
+#### consider support for a non-throwing swap.
+
+缺省情况下swap由stl提供的swap算法完成。只要相应的类型支持拷贝(通过拷贝构造函数和拷贝赋值操作符完成)。
+
+对于“以指针指向一个对象，该对象保存真正的数据”的类型，stl的swap函数会执行深度拷贝，即拷贝该指针指向的对象。而实际上，只需要交换该指针即可。这种情况下设计swap函数的常见表现形式是“pimpl手法”(pointer to implementation).
+
+```C++
+class Widget
+{
+ public:
+  Widget(const Widget& rhs);
+  void swap(Widget& other)
+  {
+    using std::swap; // 
+    swap(pImpl, other,Pimpl); // 交换指针
+  }
+ private:
+  WidgetImpl* pImpl;
+};
+
+namespace std
+{
+  template<> // std::swap的特化版本。使用该模板函数时，若对应的类型为Widget时，调用这个特化版本的函数
+  void swap<Widget>(Widget& a, Widget& b)
+  {
+    a.swap(b);
+  }
+}
+```
+
+因为C++不能偏特化(partially specialize)模板函数，只能偏特化模板类。因此当Widget本身是一个模板类时，上述的方法就失效了，可以采用以下方案。
+```C++
+namespace std
+{
+  template<typename T> // std::swap的一个重载版本
+  void swap(Widget<T>& a, Widget<T>& b)
+  {
+    a.swap(b);
+  }
 }
 ```

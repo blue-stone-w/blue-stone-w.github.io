@@ -11,7 +11,7 @@ tags:
   - 
 ---
 
-这篇文章整理了整个安装了Ubuntu 116、18、20及相关软件的过程。软件不是必备的，但提供了很多便利。有些步骤在网上已经有很好的教程，我就不再详写这些步骤，直接放出我认为好用的教程链接，并附加注意事项。建议开始每个步骤前先看注意事项。
+这篇文章整理了整个安装了Ubuntu 16、18、20及相关软件的过程。软件不是必备的，但提供了很多便利。有些步骤在网上已经有很好的教程，我就不再详写这些步骤，直接放出我认为好用的教程链接，并附加注意事项。建议开始每个步骤前先看注意事项。
 
 ## 一、准备工作
 准备工作有制作安装盘和为新系统腾出空间两个部分，可参考[Ubuntu18.04安装教程-1.2](https://blog.csdn.net/baidu_36602427/article/details/86548203)
@@ -41,7 +41,7 @@ tags:
 3.when choose option of intallation, I can see "multiple opteration systems". that means that I have installed two OS at least. choose the first option, alongsise with them.
 
 4.安装类型和空间分配  
-如果是新手的话，我的建议是选择第一个，在安装过程中会自行分配各个空间和挂载点。如果你遇到的界面要求选择一个挂载点，选择准备好的空间后把`/`挂在上去。<br /><br />
+如果选择第三项，自己分配空间。对于新手，我的建议是选择第一个，在安装过程中会自行分配各个空间和挂载点。如果你遇到的界面要求选择一个挂载点，选择准备好的空间后把`/`挂在上去。(对于`安装启动器的设备`，可参考[三.10](https://blue-stone-w-github.io/blog/ros-ubuntu-qa) <br /><br />
 
 5.用户名和密码  
 从外界访问时，首先找到按照`计算机名`找到计算机，然后在该计算机内按照`用户名/username`找到用户。第一行的`姓名/name`是让人看的，之后系统会以这个名字称呼你。密码长度自己把握。因为在使用中经常需要输入密码，因此我倾向于使用短密码。在完成安装后也可以按照[这个方法](https://blog.csdn.net/garvie/article/details/55113691)更改为短密码。
@@ -50,12 +50,13 @@ tags:
 
 ## 三、安装常用工具和设置
 ##### 1. 火狐浏览器
-显示书签，缩放zoom设为`1.2~1.5`。可从`html`文件中导入书签。打开的视频默认是静音的，如有需要可打开声音。
+显示书签；缩放zoom设为`1.2~1.5`。可从`html`文件中导入书签。打开的视频默认是静音的，如有需要可打开声音。
 ###### 2. 显示网速
 按照[这个方法](https://www.yisu.com/ask/6880.html)安装和使用sysmonitior工具。也可以添加显示cpu温度的选项，温度过高时及时降功率，延长器件寿命。可以使用如下代码输出网速等信息。
 ```
 Net: $(speed(net.down))   $(speed(net.up))   CPU: $(percent(cpu.inuse))     Mem $(percent(size(mem.user)/size(mem.total)))
 ```
+对于Ubuntu20
 ###### 3. 汉字
 需要安装fcitx，下载[搜狗输入法](https://shurufa.sogou.com/linux)`sogou`，具体安装方法可在[官网](https://shurufa.sogou.com/linux/guide)找到。其中20有个单独的安装介绍。安装中有一个步骤是卸载系统自带的`ibus`，这个卸载不是必要的。
 ###### 4. gnome
@@ -106,11 +107,15 @@ rosdep update
 *过程中可能需要装python，按照提示信息安装即可。<br />
 *如果提示没有海龟包，自行[下载](https://blog.csdn.net/qqliuzhitong/article/details/114305249)即可。
 #### 4. ROS2 
+[安装教程](https://zhuanlan.zhihu.com/p/149187701)(其中有一处错误，melodic对应Bionic18.04，而Foxy对应Focal20.04)
 
 #### 5. vscode
-推荐添加的插件：`C/C++`(选择首个)；`Markdown all in one`；`CMake`；
+* 推荐添加的插件：`C/C++`(选择首个)；`Markdown all in one`；`CMake`；
 
-如果安装的是`Ubuntu software`中自带的`vscode`，可能无法输入汉语。卸载并从官网重新下载安装即可。
+* 如果安装的是`Ubuntu software`中自带的`vscode`，可能无法输入汉语。卸载并从官网重新下载安装即可。
+
+* 添加垂直标尺：文件–>首选项–>设置->搜索`editor.rulers` -->更改设置`editor.rulers: [80,120]`，或者其他期望的值，即可。
+
 #### 7. qt
 qt5.15及之后的版本是在线安装，之前的版本是离线安装。在线安装可点击[此处](https://www.qt.io/download-qt-installer?utm_referrer=https%3A%2F%2Fwww.qt.io%2Fdownload-open-source%3Futm_referrer%3Dhttps%253A%252F%252Fwww.qt.io%252Fdownload)下载`online-installer`。离线安装可点击[此处](https://download.qt.io/)下载安装包。
 

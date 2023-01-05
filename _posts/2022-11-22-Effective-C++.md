@@ -18,7 +18,7 @@ tags:
 
 # <center>accustoming yourself to C++
 
-《Effective C++》的第一部分，理解C++
+《Effective C++》的第一部分，理解C++。
 
 <br /> 
 #### 01.视C++为一个语言联邦

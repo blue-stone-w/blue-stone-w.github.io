@@ -31,20 +31,21 @@ tags:
 
 ##### 注意事项
 
-1.boot选项异常  <br />
-如果之前曾安装过ubuntu但没有正确删除，例如直接在Windows下格式化了Ubuntu对应的盘。那么在boot选项下仍然会有Ubuntu选项。可以选择忽略原来的Ubuntu，选择自己的U盘。删除原来的Ubuntu boot选项的方法可以参考[“删除Win10 EFI启动分区中的Ubuntu启动引导项 ”](https://blog.csdn.net/Spacegene/article/details/86659349)的 2.2
+* boot选项异常  <br />
+  如果之前曾安装过ubuntu但没有正确删除，例如直接在Windows下格式化了Ubuntu对应的盘。那么在boot选项下仍然会有Ubuntu选项。可以选择忽略原来的Ubuntu，选择自己的U盘。删除原来的Ubuntu boot选项的方法可以参考[“删除Win10 EFI启动分区中的Ubuntu启动引导项 ”](https://blog.csdn.net/Spacegene/article/details/86659349)的 2.2
 
-2.修复18的花屏  <br />
-如果在安装时出现花屏的情况，参照[这个方法](https://zhuanlan.zhihu.com/p/439088148)解决
+* 修复18的花屏  <br />
+  如果在安装时出现花屏的情况，参照[这个方法](https://zhuanlan.zhihu.com/p/439088148)解决
+
 >提示: /etc/default/grub, nomodeset, sudo update-grub
 
-3.when choose option of intallation, I can see "multiple opteration systems". that means that I have installed two OS at least. choose the first option, alongsise with them.
+* when choose option of intallation, I can see "multiple opteration systems". that means that I have installed two OS at least. choose the first option, alongsise with them.
 
-4.安装类型和空间分配  
-如果选择第三项，自己分配空间。对于新手，我的建议是选择第一个，在安装过程中会自行分配各个空间和挂载点。如果你遇到的界面要求选择一个挂载点，选择准备好的空间后把`/`挂在上去。(对于`安装启动器的设备`，可参考[三.10](https://blue-stone-w-github.io/blog/ros-ubuntu-qa) <br /><br />
+* 安装类型和空间分配  
+  如果选择第三项，自己分配空间。对于新手，我的建议是选择第一个，在安装过程中会自行分配各个空间和挂载点。如果你遇到的界面要求选择一个挂载点，选择准备好的空间后把`/`挂在上去。(对于`安装启动器的设备`，可参考[三.10](https://blue-stone-w.github.io/blog/ros-ubuntu-qa) <br /><br />
 
-5.用户名和密码  
-从外界访问时，首先找到按照`计算机名`找到计算机，然后在该计算机内按照`用户名/username`找到用户。第一行的`姓名/name`是让人看的，之后系统会以这个名字称呼你。密码长度自己把握。因为在使用中经常需要输入密码，因此我倾向于使用短密码。在完成安装后也可以按照[这个方法](https://blog.csdn.net/garvie/article/details/55113691)更改为短密码。
+* 用户名和密码  
+  从外界访问时，首先找到按照`计算机名`找到计算机，然后在该计算机内按照`用户名/username`找到用户。第一行的`姓名/name`是让人看的，之后系统会以这个名字称呼你。密码长度自己把握。因为在使用中经常需要输入密码，因此我倾向于使用短密码。在完成安装后也可以按照[这个方法](https://blog.csdn.net/garvie/article/details/55113691)更改为短密码。
 
 
 

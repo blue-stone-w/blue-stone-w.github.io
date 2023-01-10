@@ -14,6 +14,8 @@ tags:
 
 这篇文章整理了ROS和Ubuntu使用过程中遇到的问题以及对应的解决方案。这些方案并不总是能解决问题，只是提供一个排查问题的方向。
 
+
+
 ## 一、ROS1相关
 
 覆盖范围包括ROS生态内的软件，比如 rqt，gazebo，rviz，yaml等等。
@@ -887,3 +889,6 @@ sudo apt install libqt5qml5 libqt5quick5 libqt5quickwidgets5 qml-module-qtquick2
 sudo apt install libgsettings-qt1
 ```
 
+##### 13 终端出错"Segmentation fault (core dumped)"
+在终端的命令行里，只剩下`cd`这个命令可用，输入其它命令都返回`Segmentation fault (core dumped)`。
+经排查分析，是`GLIBC`的版本不正确。终端在打开的时候会执行`source ~/.bashrc`，把环境变量添加进终端。在我的系统里，如果`.bashrc`不特别说明，则调用`GLIBC 2.27`。我由于某种原因，需要 2.28 ，所以我安装了 2.28 ，并在`.bashrc`末尾添加了`export LD_LIBRARY_PATH=/usr/local/glibc-2.28/lib:$LD_LIBRARY_PATH`，这样在打开终端在添加GLIBC时会添加v2.28的路径。然后因为系统内核不支持这个新版本，于是就出现了上述错误。删除添加的环境变量以使用旧版本的GLIBC，终端的命令行再次可用。
